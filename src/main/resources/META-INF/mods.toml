@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="All rights reserved"
+
+[[mods]]
+modId="chickenhat"
+version="1.0"
+displayName="Chicken Hat"
+authors="Slimeist for code and textures"
+description='''
+Adds a helmet that allows you to glide like a chicken
+'''
+
+[[dependencies.myfirstmod]]
+    modId="forge"
+    mandatory=true
+    versionRange="[36,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.myfirstmod]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5,1.17)"
+    ordering="NONE"
+    side="BOTH"
