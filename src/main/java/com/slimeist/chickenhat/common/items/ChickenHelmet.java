@@ -3,6 +3,7 @@ package com.slimeist.chickenhat.common.items;
 import com.google.common.collect.ImmutableMultimap;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.slimeist.chickenhat.client.guis.icons.Icons;
+import com.slimeist.chickenhat.common.entities.FakeChickenEntity;
 import com.slimeist.chickenhat.common.potions.BaseEffect;
 import com.slimeist.chickenhat.core.capabilities.CapabilityPiggyback;
 import com.slimeist.chickenhat.core.init.ItemInit;
@@ -12,7 +13,6 @@ import com.slimeist.chickenhat.core.util.ChickenHatNetworkUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.DisplayEffectsScreen;
-import net.minecraft.client.gui.toasts.TutorialToast;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.Entity;
@@ -88,8 +88,15 @@ public class ChickenHelmet extends ArmorItem implements IDyeableArmorItem { //de
         return ActionResultType.PASS;
     }
 
+    private static boolean isValidEntity(Entity entity) {
+        return entity instanceof FakeChickenEntity;
+    }
+
     private boolean pickupEntity(PlayerEntity playerIn, Entity target) {
         if (playerIn.getCommandSenderWorld().isClientSide) {
+            return false;
+        }
+        if (!isValidEntity(target)) {
             return false;
         }
         //idiots think they have to pick entities back up that are already riding on them, or that they are riding on
@@ -198,19 +205,7 @@ public class ChickenHelmet extends ArmorItem implements IDyeableArmorItem { //de
         @OnlyIn(Dist.CLIENT)
         public void renderHUDEffect(EffectInstance effect, AbstractGui gui, MatrixStack matrices, int x, int y, float z, float alpha) {
             Minecraft.getInstance().getTextureManager().bind(Icons.ICONS);
-            ElementScreen element;
-
-            switch (effect.getAmplifier()) {
-                case 0:
-                    element = Icons.PIGGYBACK_1;
-                    break;
-                case 1:
-                    element = Icons.PIGGYBACK_2;
-                    break;
-                default:
-                    element = Icons.PIGGYBACK_3;
-                    break;
-            }
+            ElementScreen element = Icons.CHICKENCARRY;
 
             element.draw(matrices, x+6, y+7);
         }

@@ -72,7 +72,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                chickenhat {
                     source sourceSets.main
                 }
             }
@@ -94,7 +94,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                chickenhat {
                     source sourceSets.main
                 }
             }
@@ -119,7 +119,7 @@ minecraft {
             args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                examplemod {
+                chickenhat {
                     source sourceSets.main
                 }
             }

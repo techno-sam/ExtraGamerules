@@ -6,7 +6,8 @@ license="All rights reserved"
 modId="chickenhat"
 version="1.0"
 displayName="Chicken Hat"
-authors="Slimeist for code and textures"
+authors="Slimeist"
+credits="Slimeist for main code and textures, SlimeKnights for piggy back system"
 description='''
 Adds a helmet that allows you to glide like a chicken
 '''
