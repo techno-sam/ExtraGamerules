@@ -12,6 +12,23 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven { // Vanilla
+        name 'Vanilla'
+        url 'https://libraries.minecraft.net/'
+    }
+    maven { // Forge
+        name 'ForgeFS'
+        url 'https://maven.minecraftforge.net/'
+    }
+    maven { // Mantle and JEI
+        name 'DVS1 Maven FS'
+        url 'https://dvs1.progwml6.com/files/maven'
+    }
+}
+
 version = '1.0'
 group = 'com.slimeist.chickenhat' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'chickenhat'
@@ -118,6 +135,8 @@ dependencies {
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.0'
+
+    compile fg.deobf("slimeknights.mantle:Mantle:1.16.5-1.6.108")
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"

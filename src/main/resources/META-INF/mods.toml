@@ -11,16 +11,23 @@ description='''
 Adds a helmet that allows you to glide like a chicken
 '''
 
-[[dependencies.myfirstmod]]
+[[dependencies.chickenhat]]
     modId="forge"
     mandatory=true
     versionRange="[36,)"
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.myfirstmod]]
+[[dependencies.chickenhat]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.16.5,1.17)"
     ordering="NONE"
     side="BOTH"
+
+[[dependencies.chickenhat]]
+modId="mantle"
+mandatory=true
+versionRange="[1.6.108,)"
+ordering="NONE"
+side="BOTH"

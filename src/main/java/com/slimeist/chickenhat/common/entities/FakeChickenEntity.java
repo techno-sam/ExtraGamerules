@@ -292,7 +292,7 @@ public class FakeChickenEntity extends AnimalEntity implements IEntityAdditional
     protected void defineSynchedData() {
         super.defineSynchedData();
         int defaultColorInt = packColor(127, 128, 129);
-        this.entityData.define(this.COLOR, defaultColorInt);
+        this.entityData.define(COLOR, defaultColorInt);
     }
 
     /*public void setColor(float r, float g, float b) {
@@ -307,12 +307,11 @@ public class FakeChickenEntity extends AnimalEntity implements IEntityAdditional
         if (level.isClientSide) {
             LOGGER.log(Level.ERROR, "Setting color on client is not recommended");
         }
-        this.entityData.set(this.COLOR, packedColor);
+        this.entityData.set(COLOR, packedColor);
     }
 
     public int getColor() {
-        int color = this.entityData.get(this.COLOR);
-        return color;
+        return this.entityData.get(COLOR);
     }
 
     public static int packColor(int r, int g, int b) {
@@ -405,6 +404,11 @@ public class FakeChickenEntity extends AnimalEntity implements IEntityAdditional
 
     @Override
     public void readSpawnData(PacketBuffer buffer) {
-        this.entityData.set(this.COLOR, buffer.readInt());
+        this.entityData.set(COLOR, buffer.readInt());
+    }
+
+    @Override
+    public double getMyRidingOffset() {
+        return super.getMyRidingOffset()+0.5D;
     }
 }
