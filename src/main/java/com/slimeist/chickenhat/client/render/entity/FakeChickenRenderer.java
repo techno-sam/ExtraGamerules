@@ -61,8 +61,16 @@ public class FakeChickenRenderer extends MobRenderer<FakeChickenEntity, FakeChic
         if (entity.hasCustomName()) {
             if ("slimeist_".equals(entity.getName().getContents())) { //modern rainbow
                 int cycle_length = 400; //match cycle length for sheep (16 wool colors, 25 ticks each)
-                float hue = ((entity.tickCount + entity.getId()) % cycle_length);
+                float hue = (entity.tickCount+partialTicks+(entity.getId()*25)) % cycle_length;
                 hue /= cycle_length;
+
+                /*int ticks = 25;
+                int stages = DyeColor.values().length;
+                int i = entity.tickCount / ticks + entity.getId();
+                int nowId = i % stages;
+                int nextId = (i + 1) % stages;
+                float between = ((float)(entity.tickCount % ticks) + partialTicks) / (float)ticks;
+                float hue = nowId * (1.0F - between) + nextId * between;*/
                 int overridingColor = Color.HSBtoRGB(hue, 1.0f, 1.0f);
                 c = unpackColor(overridingColor);
                 //ChickenHat.LOGGER.log(Level.INFO, "Thanks jeb_");

@@ -36,8 +36,8 @@ public class EntityTypeInit {
     public static EntityType<DyedEggEntity> DYED_EGG;
     public static void registerAll(RegistryEvent.Register<EntityType<?>> event) {
         FAKE_CHICKEN = EntityType.Builder.<FakeChickenEntity>of(FakeChickenEntity::new, EntityClassification.CREATURE)
-                .sized(0.9F, 0.5F)
-                .clientTrackingRange(8)
+                .sized(0.4F, 0.7F)
+                .clientTrackingRange(10)
                 //.setCustomClientFactory((spawnEntity, world) -> new FakeChickenEntity(fakeChickenType, world))
                 .setCustomClientFactory((spawnEntity, world) -> new FakeChickenEntity(FAKE_CHICKEN, world))
                 .build(ChickenHat.getId("fake_chicken").toString());

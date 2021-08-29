@@ -19,6 +19,10 @@ public interface IDyeableItem { //copied from net.minecraft.item.IDyeableArmorIt
         return compoundnbt != null && compoundnbt.contains("color", 99) ? compoundnbt.getInt("color") : 10511680;
     }
 
+    default int getDisplayColor(ItemStack p_200886_1_) {
+        return this.getColor(p_200886_1_);
+    }
+
     default void clearColor(ItemStack p_200884_1_) {
         CompoundNBT compoundnbt = p_200884_1_.getTagElement("display");
         if (compoundnbt != null && compoundnbt.contains("color")) {

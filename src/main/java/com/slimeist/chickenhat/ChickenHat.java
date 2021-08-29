@@ -1,7 +1,5 @@
 package com.slimeist.chickenhat;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.slimeist.chickenhat.client.render.entity.FakeChickenRenderer;
 import com.slimeist.chickenhat.common.entities.FakeChickenEntity;
 import com.slimeist.chickenhat.common.items.ChickenHelmet;
@@ -10,41 +8,32 @@ import com.slimeist.chickenhat.core.capabilities.CapabilityPiggyback;
 import com.slimeist.chickenhat.core.capabilities.PiggybackSerializer;
 import com.slimeist.chickenhat.core.init.EntityTypeInit;
 import com.slimeist.chickenhat.core.init.PotionsInit;
-import io.netty.handler.logging.LogLevel;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderType;
+import com.slimeist.chickenhat.core.interfaces.IDyeableItem;
 import net.minecraft.client.renderer.color.ItemColors;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.client.model.pipeline.LightUtil;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.slimeist.chickenhat.core.init.ItemInit;
-import com.slimeist.chickenhat.core.init.BlockInit;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.lwjgl.opengl.GL11;
 
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -76,15 +65,24 @@ public class ChickenHat
         CapabilityPiggyback.register();
     }
 
-    private void registerItemColor(ColorHandlerEvent.Item event) {
+    private void registerItemColor(final ColorHandlerEvent.Item event) {
         ItemColors itemcolors = event.getItemColors();
         itemcolors.register((p_210239_0_, p_210239_1_) -> {
             return p_210239_1_ > 0 ? -1 : ((IDyeableArmorItem)p_210239_0_.getItem()).getColor(p_210239_0_);
         }, ItemInit.CHICKEN_HELMET);
         itemcolors.register((p_210239_0_, p_210239_1_) -> {
-            return p_210239_1_ > 0 ? -1 : ((DyeableItem)p_210239_0_.getItem()).getColor(p_210239_0_);
+            return p_210239_1_ > 0 ? -1 : ((IDyeableItem)p_210239_0_.getItem()).getDisplayColor(p_210239_0_);
         }, ItemInit.DYED_EGG);
         LOGGER.log(Level.ERROR, "Registered Item Colors");
+    }
+
+    @SubscribeEvent
+    public void missingMappingsEvent(final RegistryEvent.MissingMappings<Item> event) {
+        for (RegistryEvent.MissingMappings.Mapping<Item> entry : event.getAllMappings()) {
+            if (entry.key.equals(getId("chicken_helmet"))) {
+                entry.remap(ItemInit.CHICKEN_HELMET);
+            }
+        }
     }
 
     @SubscribeEvent
@@ -171,20 +169,27 @@ public class ChickenHat
 
                     FakeChickenEntity chickenEntity = new FakeChickenEntity(EntityTypeInit.FAKE_CHICKEN, livingEntity.level);
                     FakeChickenRenderer chickenRenderer = new FakeChickenRenderer(event.getRenderer().getDispatcher());
+                    if (head_stack.hasCustomHoverName()) {
+                        chickenEntity.setCustomName(head_stack.getHoverName());
+                    }
 
                     //LOGGER.log(Level.INFO, "Wearing helmet with color: (" + r + ", " + g + ", " + b + ")");
 
                     chickenEntity.setColor(helmetColor);
 
-                    boolean isFalling = livingEntity.isOnGround();
+                    boolean onGround = livingEntity.isOnGround();
 
                     float yaw = 0;
                     chickenEntity.yBodyRot = livingEntity.yHeadRot;
                     chickenEntity.yHeadRot = chickenEntity.yBodyRot;
                     chickenEntity.yBodyRotO = chickenEntity.yBodyRot;
                     chickenEntity.yHeadRotO = chickenEntity.yHeadRot;
+                    chickenEntity.setOnGround(onGround);
+                    chickenEntity.calculateFlapping();
+                    chickenEntity.setId(livingEntity.getId());
+                    chickenEntity.tickCount = livingEntity.tickCount;
 
-                    //event.getMatrixStack().pushPose();
+                    event.getMatrixStack().pushPose();
                     event.getMatrixStack().translate(0, livingEntity.getEyeHeight(), 0);
                     //event.getMatrixStack().mulPose(Vector3f.YP.rotationDegrees(player.yHeadRot)); //player.yHeadRot is head yaw
                     //event.getMatrixStack().mulPose(Vector3f.XP.rotationDegrees(player.xRot)); //player.xRot is head pitch;
@@ -198,6 +203,7 @@ public class ChickenHat
                     chickenRenderer.render(chickenEntity, yaw, partialTicks, event.getMatrixStack(), event.getBuffers(), packedLight);
                     //event.getBuffers().getBuffer(RenderType.entitySolid(chickenRenderer.getTextureLocation(chickenEntity))).color(1.0f,0.0f, 1.0f, 1.0f);
                     //RenderSystem.color4f(1.0f,1.0f,1.0f, 1.0f);
+                    event.getMatrixStack().popPose();
                 }
             }
         }

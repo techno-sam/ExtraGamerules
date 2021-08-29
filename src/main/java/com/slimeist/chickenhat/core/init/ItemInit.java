@@ -1,11 +1,8 @@
 package com.slimeist.chickenhat.core.init;
 
 import com.slimeist.chickenhat.ChickenHat;
-import com.slimeist.chickenhat.common.items.ArmorMaterials;
-import com.slimeist.chickenhat.common.items.ChickenHelmet;
+import com.slimeist.chickenhat.common.items.*;
 
-import com.slimeist.chickenhat.common.items.DyedEgg;
-import com.slimeist.chickenhat.common.items.ModSpawnEggItem;
 import net.minecraft.entity.EntityType;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
@@ -37,9 +34,9 @@ public final class ItemInit {
     private ItemInit() {}
 
     public static void registerAll(RegistryEvent.Register<Item> event) {
-        CHICKEN_HELMET = register("chicken_helmet", new ChickenHelmet(ArmorMaterials.WINGED_LEATHER, EquipmentSlotType.HEAD, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+        CHICKEN_HELMET = register("winged_cap", new ChickenHelmet(ArmorMaterials.WINGED_LEATHER, EquipmentSlotType.HEAD, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
         FAKE_CHICKEN_SPAWN_EGG = register("fake_chicken_spawn_egg",
-                new ModSpawnEggItem("fake_chicken", 10592673, 16711680, (new Item.Properties()).tab(ItemGroup.TAB_MISC))
+                new RainbowSpawnEggItem("fake_chicken", 10592673, 16711680, (new Item.Properties()).tab(ItemGroup.TAB_MISC))
         );
         DYED_EGG = register("dyed_egg",
                 new DyedEgg((new Item.Properties()).tab(ItemGroup.TAB_MATERIALS).stacksTo(16)) //default color: DFCE9B

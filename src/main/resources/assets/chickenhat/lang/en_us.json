@@ -1,8 +1,8 @@
 {
-  "item.chickenhat.chicken_helmet": "Chicken Helmet",
+  "item.chickenhat.winged_cap": "Winged Cap",
   "item.chickenhat.fake_chicken_spawn_egg": "Fake Chicken Spawn Egg",
   "item.chickenhat.dyed_egg": "Dyed Egg",
-  "tooltip.chickenhat.chicken_helmet.advanced": "Allows you to glide like a chicken when worn.",
-  "tooltip.chickenhat.chicken_helmet.hold_shift": "\u00A77Hold \u00A7eShift \u00A77for More Information",
+  "tooltip.chickenhat.winged_cap.advanced": "Allows you to glide like a chicken when worn.",
+  "tooltip.chickenhat.winged_cap.hold_shift": "\u00A77Hold \u00A7eShift \u00A77for More Information",
   "effect.chickenhat.carry": "Carrying"
 }

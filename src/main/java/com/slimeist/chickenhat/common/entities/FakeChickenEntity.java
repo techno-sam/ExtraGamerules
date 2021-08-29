@@ -1,8 +1,8 @@
 package com.slimeist.chickenhat.common.entities;
 
-//import com.slimeist.chickenhat.core.util.Color;
-
+import com.slimeist.chickenhat.ChickenHat;
 import com.slimeist.chickenhat.common.items.DyedEgg;
+import com.slimeist.chickenhat.common.items.ModSpawnEggItem;
 import com.slimeist.chickenhat.core.init.ItemInit;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -11,13 +11,8 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.DyeItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -26,11 +21,10 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -42,9 +36,8 @@ import org.apache.logging.log4j.Level;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
-import java.util.Optional;
+import java.util.Arrays;
 import java.util.Random;
-import java.util.UUID;
 
 public class FakeChickenEntity extends AnimalEntity implements IEntityAdditionalSpawnData {
     public LivingEntity masterEntity = null;
@@ -90,9 +83,7 @@ public class FakeChickenEntity extends AnimalEntity implements IEntityAdditional
         return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 4.0D).add(Attributes.MOVEMENT_SPEED, 0.25D);
     }
 
-    public void aiStep() {
-        this.onGround = this.isOnGround();
-        super.aiStep();
+    public void calculateFlapping() {
         this.oFlap = this.flap;
         this.oFlapSpeed = this.flapSpeed;
         this.flapSpeed = (float)((double)this.flapSpeed + (double)(this.onGround ? -1 : 4) * 0.3D);
@@ -102,6 +93,13 @@ public class FakeChickenEntity extends AnimalEntity implements IEntityAdditional
         }
 
         this.flapping = (float)((double)this.flapping * 0.9D);
+    }
+
+    @Override
+    public void aiStep() {
+        this.onGround = this.isOnGround();
+        super.aiStep();
+        this.calculateFlapping();
         Vector3d vector3d = this.getDeltaMovement();
         if (!this.onGround && vector3d.y < 0.0D) {
             this.setDeltaMovement(vector3d.multiply(1.0D, 0.6D, 1.0D));
@@ -166,22 +164,44 @@ public class FakeChickenEntity extends AnimalEntity implements IEntityAdditional
         return color3;
     }
 
+    private static void log(String msg) {
+        ChickenHat.LOGGER.info(msg);
+    }
+
+    private static String colorToString(int c) {
+        float[] rgb = unpackColorFloat(c);
+        return "(r: "+rgb[0]+", g: "+rgb[1]+", b: "+rgb[2]+")";
+    }
+
     @Override
     public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         if (itemstack.getItem() instanceof DyeItem) {
             DyeItem dyeItem = (DyeItem) itemstack.getItem();
-            int dyeColor = dyeItem.getDyeColor().getColorValue();
-            if (dyeColor!=this.getColor()) {
-                if (!this.level.isClientSide) {
-                    this.setColor(dyeColor);
+            DyeColor dyeColor = dyeItem.getDyeColor();//.getColorValue();
+            int currentColor = this.getColor();
+
+            boolean thisIsLight = packColorFloat(createChickenColor(dyeColor, false)) == currentColor;
+            boolean thisIsDark = packColorFloat(createChickenColor(dyeColor, true)) == currentColor;
+            //log("Our color: "+colorToString(currentColor)+", dyeColor: "+dyeColor.getName()+", lightColor: "+colorToString(packColorFloat(createChickenColor(dyeColor, false)))+", darkColor: "+colorToString(packColorFloat(createChickenColor(dyeColor, true)))+", thisIsLight: "+thisIsLight+", thisIsDark: "+thisIsDark);
+            if (!this.level.isClientSide) {
+                if (!thisIsLight && !thisIsDark) { //we are neither the light nor the dark version of this dye, randomly make us light or dark
+                    this.setColor(packColorFloat(createChickenColor(dyeColor, this.random.nextBoolean())));
                     itemstack.shrink(1);
                     return ActionResultType.SUCCESS;
+                } else if (!thisIsLight && thisIsDark) { //we are the dark version of this dye, make us light
+                    this.setColor(packColorFloat(createChickenColor(dyeColor, false)));
+                    //itemstack.shrink(1);
+                    return ActionResultType.SUCCESS;
+                } else if (thisIsLight && !thisIsDark) { //we are the light version of this dye, make us dark
+                    this.setColor(packColorFloat(createChickenColor(dyeColor, true)));
+                    //itemstack.shrink(1);
+                    return ActionResultType.SUCCESS;
                 } else {
-                    return ActionResultType.CONSUME;
+                    return ActionResultType.PASS;
                 }
             } else {
-                return ActionResultType.PASS;
+                return ActionResultType.CONSUME;
             }
         } else {
             return super.mobInteract(player, hand);
@@ -304,9 +324,9 @@ public class FakeChickenEntity extends AnimalEntity implements IEntityAdditional
     }*/
 
     public void setColor(int packedColor) {
-        if (level.isClientSide) {
+        /*if (level.isClientSide) {
             LOGGER.log(Level.ERROR, "Setting color on client is not recommended");
-        }
+        }*/
         this.entityData.set(COLOR, packedColor);
     }
 
@@ -315,12 +335,25 @@ public class FakeChickenEntity extends AnimalEntity implements IEntityAdditional
     }
 
     public static int packColor(int r, int g, int b) {
-        return new Color(r, g, b).getRGB();
+        return new Color(r, g, b, 0).getRGB();
     }
 
     public static int[] unpackColor(int rgb) {
         Color c = new Color(rgb);
         return new int[]{c.getRed(), c.getGreen(), c.getBlue()};
+    }
+
+    private static float[] unpackColorFloat(int rgb) {
+        Color c = new Color(rgb);
+        return new float[]{c.getRed()/255.0f, c.getGreen()/255.0f, c.getBlue()/255.0f};
+    }
+
+    private static int packColorFloat(float r, float g, float b) {
+        return new Color(r, g, b, 0).getRGB();
+    }
+
+    private static int packColorFloat(float[] rgb) {
+        return new Color(rgb[0], rgb[1], rgb[2], 0).getRGB();
     }
 
     private static float[] createChickenColor(DyeColor dyeColor, Boolean darken) {
@@ -409,6 +442,18 @@ public class FakeChickenEntity extends AnimalEntity implements IEntityAdditional
 
     @Override
     public double getMyRidingOffset() {
-        return super.getMyRidingOffset()+0.5D;
+        if (this.masterEntity instanceof PlayerEntity || this.getVehicle() instanceof PlayerEntity) {
+            return super.getMyRidingOffset() + 0.5D;
+        }
+        return super.getMyRidingOffset();
+    }
+
+    @Override
+    public ItemStack getPickedResult(RayTraceResult target) {
+        return new ItemStack(ItemInit.FAKE_CHICKEN_SPAWN_EGG);
+    }
+
+    public void setOnGround(boolean onGround) { //warning: this must be used very carefully
+        this.onGround = onGround;
     }
 }

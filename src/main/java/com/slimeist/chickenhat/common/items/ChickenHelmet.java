@@ -51,9 +51,9 @@ public class ChickenHelmet extends ArmorItem implements IDyeableArmorItem { //de
     public void appendHoverText(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
         if (InputMappings.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
-            tooltip.add(new TranslationTextComponent("tooltip.chickenhat.chicken_helmet.advanced"));
+            tooltip.add(new TranslationTextComponent("tooltip.chickenhat.winged_cap.advanced"));
         } else {
-            tooltip.add(new TranslationTextComponent("tooltip.chickenhat.chicken_helmet.hold_shift"));
+            tooltip.add(new TranslationTextComponent("tooltip.chickenhat.winged_cap.hold_shift"));
         }
     }
 
