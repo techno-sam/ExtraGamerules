@@ -1,6 +1,6 @@
 package com.slimeist.chickenhat.core.capabilities;
 
-import com.slimeist.chickenhat.core.interfaces.IPiggyback;
+import com.slimeist.chickenhat.core.interfaces.IChickencarry;
 import com.slimeist.chickenhat.core.util.ChickenHatNetworkUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,7 +9,7 @@ import net.minecraft.network.play.server.SSetPassengersPacket;
 
 import java.util.List;
 
-public class PiggybackHander implements IPiggyback {
+public class ChickencarryHander implements IChickencarry {
 
     private PlayerEntity riddenPlayer;
     private List<Entity> lastPassengers;

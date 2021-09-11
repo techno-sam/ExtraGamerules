@@ -1,7 +1,7 @@
 package com.slimeist.chickenhat.core.capabilities;
 
 import com.google.common.collect.Maps;
-import com.slimeist.chickenhat.core.interfaces.IPiggyback;
+import com.slimeist.chickenhat.core.interfaces.IChickencarry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,23 +18,23 @@ import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.UUID;
 
-public class PiggybackSerializer implements ICapabilitySerializable<CompoundNBT> {
+public class ChickencarrySerializer implements ICapabilitySerializable<CompoundNBT> {
 
     private final PlayerEntity player;
-    private final IPiggyback piggyback;
-    private LazyOptional<IPiggyback> providerCap;
+    private final IChickencarry chickencarry;
+    private LazyOptional<IChickencarry> providerCap;
 
-    public PiggybackSerializer(@Nonnull PlayerEntity player) {
+    public ChickencarrySerializer(@Nonnull PlayerEntity player) {
         this.player = player;
-        this.piggyback = new PiggybackHander();
-        this.piggyback.setRiddenPlayer(player);
-        this.providerCap = LazyOptional.of(() -> this.piggyback);
+        this.chickencarry = new ChickencarryHander();
+        this.chickencarry.setRiddenPlayer(player);
+        this.providerCap = LazyOptional.of(() -> this.chickencarry);
     }
 
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == CapabilityPiggyback.PIGGYBACK) {
+        if (cap == CapabilityChickencarry.CHICKENCARRY) {
             return this.providerCap.cast();
         }
         return LazyOptional.empty();

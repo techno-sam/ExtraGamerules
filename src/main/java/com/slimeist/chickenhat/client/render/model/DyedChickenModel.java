@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
-public class FakeChickenModel<T extends Entity> extends AgeableModel<T> {
+public class DyedChickenModel<T extends Entity> extends AgeableModel<T> {
     private final ModelRenderer head;
     private final ModelRenderer body;
     private final ModelRenderer leg0;
@@ -21,7 +21,7 @@ public class FakeChickenModel<T extends Entity> extends AgeableModel<T> {
     private float g = 1.0F;
     private float b = 1.0F;
 
-    public FakeChickenModel() {
+    public DyedChickenModel() {
         int i = 16;
         this.head = new ModelRenderer(this, 0, 0);
         this.head.addBox(-2.0F, -6.0F, -2.0F, 4.0F, 6.0F, 3.0F, 0.0F);

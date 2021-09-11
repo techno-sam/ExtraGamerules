@@ -2,7 +2,6 @@ package com.slimeist.chickenhat.common.entities;
 
 import com.slimeist.chickenhat.ChickenHat;
 import com.slimeist.chickenhat.common.items.DyedEgg;
-import com.slimeist.chickenhat.common.items.ModSpawnEggItem;
 import com.slimeist.chickenhat.core.init.ItemInit;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -32,16 +31,14 @@ import com.slimeist.chickenhat.core.init.EntityTypeInit;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
-import org.apache.logging.log4j.Level;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
-import java.util.Arrays;
 import java.util.Random;
 
-public class FakeChickenEntity extends AnimalEntity implements IEntityAdditionalSpawnData {
+public class DyedChickenEntity extends AnimalEntity implements IEntityAdditionalSpawnData {
     public LivingEntity masterEntity = null;
-    public static final DataParameter<Integer> COLOR = EntityDataManager.defineId(FakeChickenEntity.class, DataSerializers.INT);
+    public static final DataParameter<Integer> COLOR = EntityDataManager.defineId(DyedChickenEntity.class, DataSerializers.INT);
     //public static final DataParameter<Optional<UUID>> MASTER_UUID = EntityDataManager.defineId(FakeChickenEntity.class, DataSerializers.OPTIONAL_UUID);
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
@@ -54,12 +51,12 @@ public class FakeChickenEntity extends AnimalEntity implements IEntityAdditional
     public boolean isChickenJockey;
     //private Color colorManager = new Color(1.0f, 1.0f, 1.0f);
 
-    public FakeChickenEntity(EntityType<? extends FakeChickenEntity> type, World world) {
+    public DyedChickenEntity(EntityType<? extends DyedChickenEntity> type, World world) {
         super(type, world);
         this.setPathfindingMalus(PathNodeType.WATER, 0.0F);
     }
 
-    public FakeChickenEntity(EntityType<? extends FakeChickenEntity> type, World world, LivingEntity masterEntity) {
+    public DyedChickenEntity(EntityType<? extends DyedChickenEntity> type, World world, LivingEntity masterEntity) {
         super(type, world);
         this.masterEntity = masterEntity;
     }
@@ -138,14 +135,14 @@ public class FakeChickenEntity extends AnimalEntity implements IEntityAdditional
         this.playSound(SoundEvents.CHICKEN_STEP, 0.15F, 1.0F);
     }
 
-    public FakeChickenEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
-        FakeChickenEntity otherParent = (FakeChickenEntity) p_241840_2_;
-        FakeChickenEntity baby = EntityTypeInit.FAKE_CHICKEN.create(p_241840_1_);
+    public DyedChickenEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
+        DyedChickenEntity otherParent = (DyedChickenEntity) p_241840_2_;
+        DyedChickenEntity baby = EntityTypeInit.DYED_CHICKEN.create(p_241840_1_);
         baby.setColor(this.getOffspringColor(this, otherParent));
         return baby;
     }
 
-    private int getOffspringColor(FakeChickenEntity parent1, FakeChickenEntity parent2) {
+    private int getOffspringColor(DyedChickenEntity parent1, DyedChickenEntity parent2) {
         int[] color1 = unpackColor(parent1.getColor());
         int[] color2 = unpackColor(parent2.getColor());
 
@@ -305,7 +302,7 @@ public class FakeChickenEntity extends AnimalEntity implements IEntityAdditional
     }
 
     public static boolean spawnPredicate(EntityType<? extends AnimalEntity> type, IWorld world, SpawnReason reason, BlockPos pos, Random random) {
-        return world.getBlockState(pos.below()).getBlock().is(Blocks.GRASS_BLOCK) && world.getRawBrightness(pos, 0) > 8;
+        return AnimalEntity.checkAnimalSpawnRules(type, world, reason, pos, random);//world.getBlockState(pos.below()).getBlock().is(Blocks.GRASS_BLOCK) && world.getRawBrightness(pos, 0) > 8;
     }
 
     @Override
@@ -450,7 +447,7 @@ public class FakeChickenEntity extends AnimalEntity implements IEntityAdditional
 
     @Override
     public ItemStack getPickedResult(RayTraceResult target) {
-        return new ItemStack(ItemInit.FAKE_CHICKEN_SPAWN_EGG);
+        return new ItemStack(ItemInit.DYED_CHICKEN_SPAWN_EGG);
     }
 
     public void setOnGround(boolean onGround) { //warning: this must be used very carefully

@@ -5,12 +5,9 @@ import com.slimeist.chickenhat.core.init.EntityTypeInit;
 import com.slimeist.chickenhat.core.init.ItemInit;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.entity.projectile.EggEntity;
 import net.minecraft.entity.projectile.ProjectileItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.network.IPacket;
 import net.minecraft.particles.ItemParticleData;
 import net.minecraft.particles.ParticleTypes;
@@ -38,6 +35,7 @@ public class DyedEggEntity extends ProjectileItemEntity {
     }
 
     @OnlyIn(Dist.CLIENT)
+    @Override
     public void handleEntityEvent(byte p_70103_1_) {
         if (p_70103_1_ == 3) {
             double d0 = 0.08D;
@@ -45,8 +43,9 @@ public class DyedEggEntity extends ProjectileItemEntity {
             for(int i = 0; i < 8; ++i) {
                 this.level.addParticle(new ItemParticleData(ParticleTypes.ITEM, this.getItem()), this.getX(), this.getY(), this.getZ(), ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D);
             }
+        } else {
+            super.handleEntityEvent(p_70103_1_);
         }
-
     }
 
     protected void onHitEntity(EntityRayTraceResult p_213868_1_) {
@@ -64,7 +63,7 @@ public class DyedEggEntity extends ProjectileItemEntity {
                 }
 
                 for(int j = 0; j < i; ++j) {
-                    FakeChickenEntity chickenentity = EntityTypeInit.FAKE_CHICKEN.create(this.level);
+                    DyedChickenEntity chickenentity = EntityTypeInit.DYED_CHICKEN.create(this.level);
                     chickenentity.setAge(-24000);
                     ItemStack itemStack = this.getItem();
                     Item item = itemStack.getItem();

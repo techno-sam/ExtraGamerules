@@ -3,18 +3,18 @@ package com.slimeist.chickenhat.common.items;
 import com.google.common.collect.ImmutableMultimap;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.slimeist.chickenhat.client.guis.icons.Icons;
-import com.slimeist.chickenhat.common.entities.FakeChickenEntity;
+import com.slimeist.chickenhat.common.entities.DyedChickenEntity;
 import com.slimeist.chickenhat.common.potions.BaseEffect;
-import com.slimeist.chickenhat.core.capabilities.CapabilityPiggyback;
+import com.slimeist.chickenhat.core.capabilities.CapabilityChickencarry;
 import com.slimeist.chickenhat.core.init.ItemInit;
 import com.slimeist.chickenhat.core.init.PotionsInit;
-import com.slimeist.chickenhat.core.interfaces.IPiggyback;
+import com.slimeist.chickenhat.core.interfaces.IChickencarry;
 import com.slimeist.chickenhat.core.util.ChickenHatNetworkUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.DisplayEffectsScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attribute;
@@ -35,7 +35,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.ItemHandlerHelper;
 import com.google.common.collect.Multimap;
-import org.lwjgl.glfw.GLFW;
 import slimeknights.mantle.client.screen.ElementScreen;
 
 import javax.annotation.Nonnull;
@@ -50,7 +49,7 @@ public class ChickenHelmet extends ArmorItem implements IDyeableArmorItem { //de
     @Override
     public void appendHoverText(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
-        if (InputMappings.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
+        if (Screen.hasShiftDown()) {
             tooltip.add(new TranslationTextComponent("tooltip.chickenhat.winged_cap.advanced"));
         } else {
             tooltip.add(new TranslationTextComponent("tooltip.chickenhat.winged_cap.hold_shift"));
@@ -89,7 +88,7 @@ public class ChickenHelmet extends ArmorItem implements IDyeableArmorItem { //de
     }
 
     private static boolean isValidEntity(Entity entity) {
-        return entity instanceof FakeChickenEntity;
+        return entity instanceof DyedChickenEntity;
     }
 
     private boolean pickupEntity(PlayerEntity playerIn, Entity target) {
@@ -190,19 +189,19 @@ public class ChickenHelmet extends ArmorItem implements IDyeableArmorItem { //de
             } else {
                 ItemInit.CHICKEN_HELMET.matchCarriedEntitiesToCount(livingEntityIn, headArmor.getCount());
                 if (!livingEntityIn.getCommandSenderWorld().isClientSide) {
-                    livingEntityIn.getCapability(CapabilityPiggyback.PIGGYBACK, null).ifPresent(IPiggyback::updatePassengers);
+                    livingEntityIn.getCapability(CapabilityChickencarry.CHICKENCARRY, null).ifPresent(IChickencarry::updatePassengers);
                 }
             }
         }
 
-        @Override
         @OnlyIn(Dist.CLIENT)
+        @Override
         public void renderInventoryEffect(EffectInstance effect, DisplayEffectsScreen<?> gui, MatrixStack matrices, int x, int y, float z) {
             this.renderHUDEffect(effect, gui, matrices, x, y, z, 1f);
         }
 
-        @Override
         @OnlyIn(Dist.CLIENT)
+        @Override
         public void renderHUDEffect(EffectInstance effect, AbstractGui gui, MatrixStack matrices, int x, int y, float z, float alpha) {
             Minecraft.getInstance().getTextureManager().bind(Icons.ICONS);
             ElementScreen element = Icons.CHICKENCARRY;
