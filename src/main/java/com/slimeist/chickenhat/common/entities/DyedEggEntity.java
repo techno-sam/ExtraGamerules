@@ -3,6 +3,7 @@ package com.slimeist.chickenhat.common.entities;
 import com.slimeist.chickenhat.common.items.DyedEgg;
 import com.slimeist.chickenhat.core.init.EntityTypeInit;
 import com.slimeist.chickenhat.core.init.ItemInit;
+import com.slimeist.chickenhat.core.interfaces.IDyeableItem;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileItemEntity;
@@ -40,8 +41,10 @@ public class DyedEggEntity extends ProjectileItemEntity {
         if (p_70103_1_ == 3) {
             double d0 = 0.08D;
 
+            ItemStack stack = this.getItem();
+
             for(int i = 0; i < 8; ++i) {
-                this.level.addParticle(new ItemParticleData(ParticleTypes.ITEM, this.getItem()), this.getX(), this.getY(), this.getZ(), ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D);
+                this.level.addParticle(new ItemParticleData(ParticleTypes.ITEM, stack), this.getX(), this.getY(), this.getZ(), ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D);
             }
         } else {
             super.handleEntityEvent(p_70103_1_);

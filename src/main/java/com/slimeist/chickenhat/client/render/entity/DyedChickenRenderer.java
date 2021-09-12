@@ -10,6 +10,8 @@ import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.IBlockDisplayReader;
+import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -86,6 +88,12 @@ public class DyedChickenRenderer extends MobRenderer<DyedChickenEntity, DyedChic
                 int g2 = (int)(g1*255);
                 int b2 = (int)(b1*255);
                 c = new int[]{r2, g2, b2};
+            } else if ("creeper".equals(entity.getName().getContents())) { //disguise with grass color!
+                double divisor = 1.514690406168031;
+                c = unpackColor(BiomeColors.getAverageGrassColor(entity.level, entity.blockPosition()));
+                c[0] = (int) (c[0]/divisor);
+                c[1] = (int) (c[1]/divisor);
+                c[2] = (int) (c[2]/divisor);
             }
         }
 

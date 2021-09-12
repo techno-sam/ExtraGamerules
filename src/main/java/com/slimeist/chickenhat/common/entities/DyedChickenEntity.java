@@ -5,6 +5,7 @@ import com.slimeist.chickenhat.common.items.DyedEgg;
 import com.slimeist.chickenhat.core.init.ItemInit;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.GrassBlock;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -49,6 +50,7 @@ public class DyedChickenEntity extends AnimalEntity implements IEntityAdditional
     public float flapping = 1.0F;
     public int eggTime = this.random.nextInt(6000) + 6000;
     public boolean isChickenJockey;
+    protected BlockPos overrideBlockPosition;
     //private Color colorManager = new Color(1.0f, 1.0f, 1.0f);
 
     public DyedChickenEntity(EntityType<? extends DyedChickenEntity> type, World world) {
@@ -138,7 +140,9 @@ public class DyedChickenEntity extends AnimalEntity implements IEntityAdditional
     public DyedChickenEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
         DyedChickenEntity otherParent = (DyedChickenEntity) p_241840_2_;
         DyedChickenEntity baby = EntityTypeInit.DYED_CHICKEN.create(p_241840_1_);
-        baby.setColor(this.getOffspringColor(this, otherParent));
+        if (baby!=null) {
+            baby.setColor(this.getOffspringColor(this, otherParent));
+        }
         return baby;
     }
 
@@ -376,7 +380,7 @@ public class DyedChickenEntity extends AnimalEntity implements IEntityAdditional
         int g = random.nextInt(255);
         int b = random.nextInt(255);
         this.setColor(packColor(r, g, b));*/
-        int colorId = random.nextInt(DyeColor.values().length-1);
+        int colorId = random.nextInt(DyeColor.values().length - 1);
         float[] color = createChickenColor(DyeColor.byId(colorId), this.random.nextBoolean()); //SheepEntity.getColorArray(DyeColor.byId(colorId));
         int r = (int) (color[0] * 255.0f);
         int g = (int) (color[1] * 255.0f);
@@ -452,5 +456,14 @@ public class DyedChickenEntity extends AnimalEntity implements IEntityAdditional
 
     public void setOnGround(boolean onGround) { //warning: this must be used very carefully
         this.onGround = onGround;
+    }
+
+    public void setBlockPosition(BlockPos pos) {
+        this.overrideBlockPosition = pos;
+    }
+
+    @Override
+    public BlockPos blockPosition() {
+        return this.overrideBlockPosition==null ? super.blockPosition() : this.overrideBlockPosition;
     }
 }

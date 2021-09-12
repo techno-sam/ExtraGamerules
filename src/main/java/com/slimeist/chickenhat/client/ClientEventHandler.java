@@ -63,6 +63,7 @@ public class ClientEventHandler {
                     chickenEntity.calculateFlapping();
                     chickenEntity.setId(livingEntity.getId());
                     chickenEntity.tickCount = livingEntity.tickCount;
+                    chickenEntity.setBlockPosition(livingEntity.blockPosition());
 
                     event.getMatrixStack().pushPose();
                     event.getMatrixStack().translate(0, livingEntity.getEyeHeight(), 0);
