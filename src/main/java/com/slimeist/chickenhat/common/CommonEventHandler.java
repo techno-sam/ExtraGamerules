@@ -22,6 +22,8 @@ public class CommonEventHandler {
         for (RegistryEvent.MissingMappings.Mapping<Item> entry : event.getAllMappings()) {
             if (entry.key.equals(getId("chicken_helmet"))) {
                 entry.remap(ItemInit.CHICKEN_HELMET);
+            } else if (entry.key.equals(getId("fake_chicken_spawn_egg"))) {
+                entry.remap(ItemInit.DYED_CHICKEN_SPAWN_EGG);
             }
         }
     }
