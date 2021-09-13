@@ -104,6 +104,14 @@ public class DyedChickenEntity extends AnimalEntity implements IEntityAdditional
             this.setDeltaMovement(vector3d.multiply(1.0D, 0.6D, 1.0D));
         }
 
+        /*if (this.getVehicle()!=null) {
+            Entity vehicle = this.getVehicle();
+            Vector3d vehicleDM = vehicle.getDeltaMovement();
+            if (!vehicle.isOnGround() && vehicleDM.y < 0.0D) {
+                vehicle.setDeltaMovement(vehicleDM.multiply(1.0D, 0.6D, 1.0D));
+            }
+        }*/
+
         this.flap += this.flapping * 2.0F;
         if (!this.level.isClientSide && this.isAlive() && !this.isBaby() && !this.isChickenJockey() && --this.eggTime <= 0) {
             this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);

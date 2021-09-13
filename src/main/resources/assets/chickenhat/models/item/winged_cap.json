@@ -1,7 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "chickenhat:items/winged_cap",
-    "layer1": "chickenhat:items/winged_cap_overlay"
-  }
-}

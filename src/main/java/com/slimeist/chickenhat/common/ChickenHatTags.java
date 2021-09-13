@@ -16,7 +16,7 @@ public class ChickenHatTags {
     public static class Items {
         private static void init() {}
 
-        public static final Tags.IOptionalNamedTag<Item> WINGED_CAP = tag("winged_cap");
+        public static final Tags.IOptionalNamedTag<Item> WINGED_HELMET = tag("winged_helmet");
 
         private static Tags.IOptionalNamedTag<Item> tag(String name) {
             return ItemTags.createOptional(ChickenHat.getId(name));

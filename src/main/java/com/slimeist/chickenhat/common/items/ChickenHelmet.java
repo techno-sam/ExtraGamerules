@@ -28,11 +28,13 @@ import net.minecraft.network.play.server.SSetPassengersPacket;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
 import net.minecraft.util.*;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.items.ItemHandlerHelper;
 import com.google.common.collect.Multimap;
 import slimeknights.mantle.client.screen.ElementScreen;
@@ -46,13 +48,14 @@ public class ChickenHelmet extends ArmorItem implements IDyeableArmorItem { //de
         super(material, slottype, properties);
     }
 
+    @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
         if (Screen.hasShiftDown()) {
-            tooltip.add(new TranslationTextComponent("tooltip.chickenhat.winged_cap.advanced"));
+            tooltip.add(new TranslationTextComponent("tooltip.chickenhat.winged_helmet.advanced"));
         } else {
-            tooltip.add(new TranslationTextComponent("tooltip.chickenhat.winged_cap.hold_shift"));
+            tooltip.add(new TranslationTextComponent("tooltip.chickenhat.winged_helmet.hold_shift"));
         }
     }
 
@@ -168,12 +171,14 @@ public class ChickenHelmet extends ArmorItem implements IDyeableArmorItem { //de
 
     public static class CarryPotionEffect extends BaseEffect {
 
-        static final String UUID = "ff4de63a-2b24-11e6-b67b-9e71128cae77";
+        static final String SPEED_UUID = "ff4de63a-2b24-11e6-b67b-9e71128cae77";
+        static final String GRAVITY_UUID = "ff4de63a-2b24-11e6-b67b-9e71128cae78";
 
         public CarryPotionEffect() {
             super(EffectType.NEUTRAL, true);
 
-            this.addAttributeModifier(Attributes.MOVEMENT_SPEED, UUID,-0.05D, AttributeModifier.Operation.MULTIPLY_TOTAL);
+            this.addAttributeModifier(Attributes.MOVEMENT_SPEED, SPEED_UUID,-0.05D, AttributeModifier.Operation.MULTIPLY_TOTAL);
+            //this.addAttributeModifier(ForgeMod.ENTITY_GRAVITY.get(), GRAVITY_UUID, -0.04D, AttributeModifier.Operation.MULTIPLY_TOTAL);
         }
 
         @Override
@@ -190,6 +195,12 @@ public class ChickenHelmet extends ArmorItem implements IDyeableArmorItem { //de
                 ItemInit.CHICKEN_HELMET.matchCarriedEntitiesToCount(livingEntityIn, headArmor.getCount());
                 if (!livingEntityIn.getCommandSenderWorld().isClientSide) {
                     livingEntityIn.getCapability(CapabilityChickencarry.CHICKENCARRY, null).ifPresent(IChickencarry::updatePassengers);
+                    /*Vector3d vector3d = livingEntityIn.getDeltaMovement();
+                    boolean isFlying = livingEntityIn instanceof PlayerEntity && ((PlayerEntity) livingEntityIn).abilities.flying;
+                    if (!livingEntityIn.isOnGround() && vector3d.y < 0.0D && !isFlying && !livingEntityIn.isFallFlying() && !livingEntityIn.isCrouching()) {
+                        //livingEntityIn.setDeltaMovement(vector3d.multiply(1.0D, 0.6D, 1.0D)); //0.6D
+                        livingEntityIn.fallDistance = 0;
+                    }*/
                 }
             }
         }
