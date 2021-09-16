@@ -27,14 +27,14 @@ public class EntityTypeInit {
                 .clientTrackingRange(10)
                 //.setCustomClientFactory((spawnEntity, world) -> new FakeChickenEntity(fakeChickenType, world))
                 .setCustomClientFactory((spawnEntity, world) -> new DyedChickenEntity(DYED_CHICKEN, world))
-                .build(ChickenHat.getId("fake_chicken").toString());
+                .build(ChickenHat.getId("dyed_chicken").toString());
         DYED_EGG = EntityType.Builder.<DyedEggEntity>of(DyedEggEntity::new, EntityClassification.MISC)
                 .sized(0.25F, 0.25F)
                 .clientTrackingRange(4)
                 .updateInterval(10)
                 .setCustomClientFactory((spawnEntity, world) -> new DyedEggEntity(DYED_EGG, world))
                 .build(ChickenHat.getId("dyed_egg").toString());
-        DYED_CHICKEN.setRegistryName(ChickenHat.getId("fake_chicken"));
+        DYED_CHICKEN.setRegistryName(ChickenHat.getId("dyed_chicken"));
         DYED_EGG.setRegistryName(ChickenHat.getId("dyed_egg"));
         ForgeRegistries.ENTITIES.register(DYED_CHICKEN);
         ForgeRegistries.ENTITIES.register(DYED_EGG);
@@ -47,7 +47,7 @@ public class EntityTypeInit {
     }
 
     public static EntityType<?> getType(String name) {
-        if (name.equals("fake_chicken")) {
+        if (name.equals("dyed_chicken")) {
             return DYED_CHICKEN;
         }
         return EntityType.PIG;

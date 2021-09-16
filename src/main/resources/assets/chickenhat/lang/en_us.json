@@ -4,5 +4,6 @@
   "item.chickenhat.dyed_egg": "Dyed Egg",
   "tooltip.chickenhat.winged_helmet.advanced": "\u00A7b\u00A7oUse\u00A77\u00A7r on \u00A7d\u00A7lDyed Chickens\u00A77\u00A7r to pick up. Allows gliding when wearing a chicken on head.",
   "tooltip.chickenhat.winged_helmet.hold_shift": "\u00A77Hold \u00A7eShift \u00A77for More Information",
-  "effect.chickenhat.carry": "Carrying"
+  "effect.chickenhat.carry": "Carrying",
+  "entity.chickenhat.dyed_chicken": "Dyed Chicken"
 }

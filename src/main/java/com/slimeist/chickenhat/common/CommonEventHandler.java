@@ -4,9 +4,11 @@ import com.slimeist.chickenhat.ChickenHat;
 import com.slimeist.chickenhat.common.items.ChickenHelmet;
 import com.slimeist.chickenhat.common.mob_spawning.EntitySpawnHandler;
 import com.slimeist.chickenhat.core.capabilities.ChickencarrySerializer;
+import com.slimeist.chickenhat.core.init.EntityTypeInit;
 import com.slimeist.chickenhat.core.init.ItemInit;
 import com.slimeist.chickenhat.core.init.PotionsInit;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.vector.Vector3d;
@@ -22,12 +24,21 @@ import static com.slimeist.chickenhat.ChickenHat.getId;
 public class CommonEventHandler {
 
     @SubscribeEvent
-    public static void missingMappingsEvent(final RegistryEvent.MissingMappings<Item> event) {
+    public static void missingItemMappingsEvent(final RegistryEvent.MissingMappings<Item> event) {
         for (RegistryEvent.MissingMappings.Mapping<Item> entry : event.getAllMappings()) {
             if (entry.key.equals(getId("chicken_helmet")) || entry.key.equals(getId("winged_cap"))) {
                 entry.remap(ItemInit.CHICKEN_HELMET);
             } else if (entry.key.equals(getId("fake_chicken_spawn_egg"))) {
                 entry.remap(ItemInit.DYED_CHICKEN_SPAWN_EGG);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void missingEntityTypeMappingsEvent(final RegistryEvent.MissingMappings<EntityType<?>> event) {
+        for (RegistryEvent.MissingMappings.Mapping<EntityType<?>> entry : event.getAllMappings()) {
+            if (entry.key.equals(getId("fake_chicken"))) {
+                entry.remap(EntityTypeInit.DYED_CHICKEN);
             }
         }
     }

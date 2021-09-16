@@ -30,7 +30,7 @@ public final class ItemInit {
     public static void registerAll(RegistryEvent.Register<Item> event) {
         CHICKEN_HELMET = register("winged_helmet", new ChickenHelmet(ArmorMaterials.WINGED_LEATHER, EquipmentSlotType.HEAD, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
         DYED_CHICKEN_SPAWN_EGG = register("dyed_chicken_spawn_egg",
-                new RainbowSpawnEggItem("fake_chicken", 10592673, 16711680, (new Item.Properties()).tab(ItemGroup.TAB_MISC))
+                new RainbowSpawnEggItem("dyed_chicken", 10592673, 16711680, (new Item.Properties()).tab(ItemGroup.TAB_MISC))
         );
         DYED_EGG = register("dyed_egg",
                 new DyedEgg((new Item.Properties()).tab(ItemGroup.TAB_MATERIALS).stacksTo(16)) //default color: DFCE9B
