@@ -1,21 +1,17 @@
 package com.slimeist.chickenhat.client;
 
-import com.slimeist.chickenhat.ChickenHat;
 import com.slimeist.chickenhat.client.render.entity.DyedChickenRenderer;
-import com.slimeist.chickenhat.common.ChickenHatTags;
 import com.slimeist.chickenhat.common.entities.DyedChickenEntity;
 import com.slimeist.chickenhat.common.items.ChickenHelmet;
 import com.slimeist.chickenhat.core.init.EntityTypeInit;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ClientEventHandler {
@@ -56,6 +52,15 @@ public class ClientEventHandler {
 
                     float yaw = 0;
                     chickenEntity.yBodyRot = livingEntity.yHeadRot;
+
+                    if (livingEntity instanceof ArmorStandEntity) {
+                        chickenEntity.yBodyRot = ((ArmorStandEntity) livingEntity).getHeadPose().getY()+((ArmorStandEntity) livingEntity).yBodyRot;
+                    }
+
+                    if (livingEntity.isBaby()) {
+                        chickenEntity.setAge(-22213);
+                    }
+
                     chickenEntity.yHeadRot = chickenEntity.yBodyRot;
                     chickenEntity.yBodyRotO = chickenEntity.yBodyRot;
                     chickenEntity.yHeadRotO = chickenEntity.yHeadRot;
@@ -66,7 +71,7 @@ public class ClientEventHandler {
                     chickenEntity.setBlockPosition(livingEntity.blockPosition());
 
                     event.getMatrixStack().pushPose();
-                    event.getMatrixStack().translate(0, livingEntity.getEyeHeight(), 0);
+                    event.getMatrixStack().translate(0, livingEntity.getBbHeight(), 0);
                     //event.getMatrixStack().mulPose(Vector3f.YP.rotationDegrees(player.yHeadRot)); //player.yHeadRot is head yaw
                     //event.getMatrixStack().mulPose(Vector3f.XP.rotationDegrees(player.xRot)); //player.xRot is head pitch;
 

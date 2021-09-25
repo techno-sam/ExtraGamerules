@@ -37,17 +37,17 @@ public class EntitySpawnHandler {
 
     public static void onBiomeLoaded(BiomeLoadingEvent ev) {
         MobSpawnInfoBuilder builder = ev.getSpawns();
-        log("Running onBiomeLoaded event");
+        //log("Running onBiomeLoaded event");
 
         for(TrackedSpawnConfig c : trackedSpawnConfigs) {
             List<MobSpawnInfo.Spawners> l = builder.getSpawner(c.classification);
-            log("Trying to add spawn for: "+c.entry.toString());
+            //log("Trying to add spawn for: "+c.entry.toString());
             if(!c.secondary)
                 l.removeIf(e -> e.type.equals(c.entityType));
 
             if(c.config.biomes.canSpawn(ev)) {
                 l.add(c.entry);
-                log("Adding spawn: "+c.entry.toString());
+                //log("Adding spawn: "+c.entry.toString());
             }
 
             if(c.config instanceof CostSensitiveEntitySpawnConfig) {

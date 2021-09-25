@@ -52,7 +52,7 @@ public class CommonEventHandler {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBiomeLoaded(BiomeLoadingEvent event) {
-        ChickenHat.LOGGER.info("onBiomeLoadedEvent with: "+event.getName());
+        //ChickenHat.LOGGER.info("onBiomeLoadedEvent with: "+event.getName());
         EntitySpawnHandler.onBiomeLoaded(event);
     }
 

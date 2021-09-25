@@ -30,6 +30,6 @@ license="Code, textures, and binaries are licensed under the MIT license."
 [[dependencies.chickenhat]]
 modId="mantle"
 mandatory=true
-versionRange="[1.6.108,)"
+versionRange="[1.6.10 8,)"
 ordering="NONE"
 side="BOTH"
