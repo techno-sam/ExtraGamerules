@@ -32,7 +32,7 @@ public class EntitySpawnHandler {
     }
 
     private static void log(String msg) {
-        ChickenHat.LOGGER.info(msg);
+        ChickenHat.info(msg);
     }
 
     public static void onBiomeLoaded(BiomeLoadingEvent ev) {

@@ -71,7 +71,7 @@ public class ModSpawnEggItem extends SpawnEggItem {
 
     @Override
     public EntityType<?> getType(@Nullable final CompoundNBT p_208076_1_) {
-        ChickenHat.LOGGER.log(Level.INFO, "Getting EntityType of spawn egg with entityType "+this.entityType);
+        ChickenHat.log(Level.DEBUG, "Getting EntityType of spawn egg with entityType "+this.entityType);
         return EntityTypeInit.getType(this.entityType);
     }
 

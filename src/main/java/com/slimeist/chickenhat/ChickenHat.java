@@ -8,6 +8,7 @@ import com.slimeist.chickenhat.common.StartupCommon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,5 +38,13 @@ public class ChickenHat
 
     public static ResourceLocation getId(String path) {
         return new ResourceLocation(MOD_ID, path);
+    }
+
+    public static void info(String msg) {
+        log(Level.INFO, msg);
+    }
+
+    public static void log(Level level, String msg) {
+        LOGGER.log(level, msg);
     }
 }

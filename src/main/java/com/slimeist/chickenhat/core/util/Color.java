@@ -72,7 +72,7 @@ public class Color {
         int b = (int)this.getBlue()*255;
 
         int packedColor = r<<16 | g<<8 | b;
-        ChickenHat.LOGGER.log(Level.INFO, "Packing color: ("+r+", "+g+", "+b+")"+", to: "+packedColor);
+        ChickenHat.log(Level.DEBUG, "Packing color: ("+r+", "+g+", "+b+")"+", to: "+packedColor);
 
         return packedColor;
     }

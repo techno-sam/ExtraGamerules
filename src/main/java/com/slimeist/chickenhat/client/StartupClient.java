@@ -40,6 +40,6 @@ public class StartupClient {
         itemcolors.register((p_210239_0_, p_210239_1_) -> {
             return ((RainbowSpawnEggItem)p_210239_0_.getItem()).getColor(p_210239_0_, p_210239_1_);
         }, ItemInit.DYED_CHICKEN_SPAWN_EGG);
-        ChickenHat.LOGGER.log(Level.ERROR, "Registered Item Colors");
+        ChickenHat.log(Level.INFO, "Registered Item Colors");
     }
 }

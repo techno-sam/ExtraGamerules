@@ -19,7 +19,7 @@ public class StartupCommon {
     @SubscribeEvent
     public static void setup(final FMLCommonSetupEvent event)
     {
-        ChickenHat.LOGGER.log(Level.ERROR, "Setting up ChickenHat mod");
+        ChickenHat.log(Level.INFO, "Setting up ChickenHat mod");
         CapabilityChickencarry.register();
         ChickenHatTags.init();
     }

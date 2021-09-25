@@ -174,7 +174,7 @@ public class DyedChickenEntity extends AnimalEntity implements IEntityAdditional
     }
 
     private static void log(String msg) {
-        ChickenHat.LOGGER.info(msg);
+        ChickenHat.info(msg);
     }
 
     private static String colorToString(int c) {
