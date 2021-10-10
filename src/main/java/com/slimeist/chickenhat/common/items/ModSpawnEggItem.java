@@ -40,13 +40,13 @@ public class ModSpawnEggItem extends SpawnEggItem {
      * Adds all the supplier based spawn eggs to vanilla's map and registers an
      * IDispenseItemBehavior for each of them as normal spawn eggs have one
      * registered for each of them during
-     * {@link net.minecraft.dispenser.IDispenseItemBehavior#init()} but supplier
+     * {@link net.minecraft.dispenser.IDispenseItemBehavior#bootStrap()} but supplier
      * based ones won't have had their EntityTypes created yet.
      */
     public static void initUnaddedEggs() {
         final Map<EntityType<?>, SpawnEggItem> EGGS;
         EGGS = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class,
-                null, "BY_ID");//"field_195987_b");
+                null, "field_195987_b");//"BY_ID");
         DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior() {
             public ItemStack execute(IBlockSource source, ItemStack stack) {
                 //ChickenHat.LOGGER.log(Level.INFO, "Trying to spawn from dispenser");
@@ -58,15 +58,16 @@ public class ModSpawnEggItem extends SpawnEggItem {
                 return stack;
             }
         };
-        for (final ModSpawnEggItem mod_egg : UNADDED_EGGS) {
-            SpawnEggItem egg = (SpawnEggItem) mod_egg;
-            EGGS.put(mod_egg.getType(null), egg);
-            DispenserBlock.registerBehavior(mod_egg, defaultDispenseItemBehavior);
-            //ChickenHat.LOGGER.log(Level.INFO, "Registering dispense item behavior for: "+mod_egg.entityType);
-            // ItemColors for each spawn egg don't need to be registered because this method
-            // is called before ItemColors is created
+        if (EGGS!=null) {
+            for (final ModSpawnEggItem mod_egg : UNADDED_EGGS) {
+                EGGS.put(mod_egg.getType(null), mod_egg);
+                DispenserBlock.registerBehavior(mod_egg, defaultDispenseItemBehavior);
+                //ChickenHat.LOGGER.log(Level.INFO, "Registering dispense item behavior for: "+mod_egg.entityType);
+                // ItemColors for each spawn egg don't need to be registered because this method
+                // is called before ItemColors is created
+            }
+            UNADDED_EGGS.clear();
         }
-        UNADDED_EGGS.clear();
     }
 
     @Override
