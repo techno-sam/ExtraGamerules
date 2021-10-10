@@ -1,4 +1,4 @@
-![Screenshot](screenshot.png)
+![Logo](logo.png)
 ==============
 
 A vanilla+ mod!
