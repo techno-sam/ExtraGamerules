@@ -11,7 +11,7 @@ credits="Slimeist for main code and textures, SlimeKnights for piggy back system
 description='''
 Creates new uses for chickens, notably, a new type of chicken that is dyeable, and a helmet to wear such chickens on your head.
 '''
-license="Code, textures, and binaries are licensed under the MIT license."
+license="Code, textures, and binaries are licensed under the GNU GPL v3 license."
 
 [[dependencies.chickenhat]]
     modId="forge"
