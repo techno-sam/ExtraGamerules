@@ -29,7 +29,7 @@ repositories {
     }
 }
 
-version = '1.0'
+version = '1.0.0'
 group = 'com.slimeist.chickenhat' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'chickenhat'
 
@@ -158,7 +158,7 @@ dependencies {
 
 }
 
-// Example for how to get properties into the manifest for reading by the runtime..
+// Properties!
 jar {
     manifest {
         attributes([
