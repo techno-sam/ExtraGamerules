@@ -32,9 +32,10 @@ repositories {
 ext.configFile = file('build.properties')
 ext.config = parseConfig(configFile)
 
+String mc_version = config.mc_version
 version = "${config.version}"
 group = 'com.slimeist.chickenhat' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'Chickenhat'
+archivesBaseName = 'ChickenHat'
 
 compileJava.options.compilerArgs << "-Xlint:all,-classfile,-processing,-deprecation" << "-Werror"
 
@@ -189,7 +190,7 @@ def parseConfig(File config) {
 // Properties!
 jar {
 
-    archiveName = "${baseName}-${version}-${config.mc_version}.${extension}"
+    archiveName = "${baseName}-${version}-${mc_version}.${extension}"
 
     manifest {
         attributes([
@@ -204,6 +205,7 @@ jar {
     }
 
     exclude "**/*.xcf"
+    exclude "**/*sync-conflict*"
 }
 
 // Example configuration to allow publishing using the maven-publish task

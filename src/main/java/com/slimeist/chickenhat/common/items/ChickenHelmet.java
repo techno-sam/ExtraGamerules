@@ -164,10 +164,10 @@ public class ChickenHelmet extends ArmorItem implements IDyeableArmorItem { //de
         }
     }
 
-    @Override
+    /*@Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot, ItemStack stack) {
         return ImmutableMultimap.of(); //potion effect handles them
-    }
+    }*/
 
     public static class CarryPotionEffect extends BaseEffect {
 
