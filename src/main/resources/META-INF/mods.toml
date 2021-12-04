@@ -4,7 +4,7 @@ license="All rights reserved"
 
 [[mods]]
 modId="chickenhat"
-version="1.0"
+version="${version}"
 displayName="Chicken Hat"
 authors="Slimeist"
 credits="Slimeist for main code and textures, SlimeKnights for piggy back system (which is called Chickencarry in this mod), Vazkii for mob spawning systems"

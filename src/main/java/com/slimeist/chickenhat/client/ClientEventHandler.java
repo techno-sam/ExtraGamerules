@@ -4,6 +4,7 @@ import com.slimeist.chickenhat.client.render.entity.DyedChickenRenderer;
 import com.slimeist.chickenhat.common.entities.DyedChickenEntity;
 import com.slimeist.chickenhat.common.items.ChickenHelmet;
 import com.slimeist.chickenhat.core.init.EntityTypeInit;
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,7 +18,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class ClientEventHandler {
 
     @SubscribeEvent
-    public static void renderLivingEntityChicken(RenderLivingEvent.Post event) {
+    public static void renderLivingEntityChicken(final RenderLivingEvent.Post<LivingEntity, EntityModel<LivingEntity>> event) {
         LivingEntity livingEntity = event.getEntity();
 
         if(!(livingEntity instanceof PlayerEntity)) {
