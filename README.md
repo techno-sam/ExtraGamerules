@@ -1,11 +1,10 @@
 ![Logo](logo.png)
 ==============
 
-A vanilla+ mod!
-Adds dyeable chickens and a new chicken-powered glider helmet!
+Adds extra gamerules for convenience.
 
 #Dependencies
-This mod requires [Mantle](https://curseforge.com/minecraft/mc-mods/mantle)
+This mod has no dependencies!
 
 # Downloads
 [CurseForge](https://curseforge.com/minecraft/mc-mods/chicken-hat/files)

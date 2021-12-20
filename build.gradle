@@ -23,10 +23,6 @@ repositories {
         name 'ForgeFS'
         url 'https://maven.minecraftforge.net/'
     }
-    maven { // Mantle and JEI
-        name 'DVS1 Maven FS'
-        url 'https://dvs1.progwml6.com/files/maven'
-    }
 }
 
 ext.configFile = file('build.properties')
@@ -34,8 +30,8 @@ ext.config = parseConfig(configFile)
 
 String mc_version = config.mc_version
 version = "${config.version}"
-group = 'com.slimeist.chickenhat' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'ChickenHat'
+group = 'com.slimeist.extragamerules' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'ExtraGamerules'
 
 compileJava.options.compilerArgs << "-Xlint:all,-classfile,-processing,-deprecation" << "-Werror"
 
@@ -78,7 +74,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                chickenhat {
+                extragamerules {
                     source sourceSets.main
                 }
             }
@@ -100,7 +96,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                chickenhat {
+                extragamerules {
                     source sourceSets.main
                 }
             }
@@ -122,10 +118,10 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'chickenhat', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', 'extragamerules', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                chickenhat {
+                extragamerules {
                     source sourceSets.main
                 }
             }
@@ -141,8 +137,6 @@ dependencies {
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.0'
-
-    compile fg.deobf("slimeknights.mantle:Mantle:1.16.5-1.6.108")
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -194,7 +188,7 @@ jar {
 
     manifest {
         attributes([
-            "Specification-Title": "Chicken Hat",
+            "Specification-Title": "Extra Gamerules",
             "Specification-Vendor": "Slimeist",
             "Specification-Version": "${version}",
             "Implementation-Title": project.name,
