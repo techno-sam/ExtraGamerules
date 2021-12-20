@@ -12,6 +12,7 @@ description='''
 Adds new gamerules including:
 doSnowMelt - whether snow should melt in light
 doIceMelt - whether ice should melt in light
+zeroTickFarms - whether to re-enable zero tick farms from pre 1.16
 '''
 license="Code, textures, and binaries are licensed under the GNU GPL v3 license."
 

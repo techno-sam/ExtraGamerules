@@ -38,6 +38,8 @@ public class ExtraGamerules
     public static Rule.BooleanRule SNOW_MELT = new Rule.BooleanRule(gameruleId("doSnowMelt"), GameRules.Category.MISC, true);
     public static Rule.BooleanRule ICE_MELT = new Rule.BooleanRule(gameruleId("doIceMelt"), GameRules.Category.MISC, true);
 
+    public static Rule.BooleanRule ZERO_TICK_FARMS = new Rule.BooleanRule(gameruleId("zeroTickFarms"), GameRules.Category.UPDATES, true);
+
 
     public ExtraGamerules() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();

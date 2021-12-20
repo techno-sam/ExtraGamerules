@@ -17,6 +17,7 @@ public class StartupCommon {
 
         event.enqueueWork(() -> makeBooleanRule(ExtraGamerules.SNOW_MELT));
         event.enqueueWork(() -> makeBooleanRule(ExtraGamerules.ICE_MELT));
+        event.enqueueWork(() -> makeBooleanRule(ExtraGamerules.ZERO_TICK_FARMS));
     }
 
     private static void makeBooleanRule(Rule.BooleanRule rule) {
