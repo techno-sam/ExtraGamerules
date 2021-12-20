@@ -4,8 +4,13 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "extragamerules.refmap.json",
   "mixins": [
+    "MixinIceMelt",
     "MixinSnowMelt",
-    "MixinIceMelt"
+    "zerotick.AbstractPlantTick",
+    "zerotick.BambooTick",
+    "zerotick.CactusTick",
+    "zerotick.ChorusFlowerTick",
+    "zerotick.SugarCaneTick"
   ],
   "minVersion": "0.8"
 }
