@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "com.slimeist.extragamerules.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "extragamerules.refmap.json",
+  "mixins": [
+    "MixinSnowMelt",
+    "MixinIceMelt"
+  ],
+  "minVersion": "0.8"
+}
