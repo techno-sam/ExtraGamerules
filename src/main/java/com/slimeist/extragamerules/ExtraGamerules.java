@@ -23,7 +23,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class ExtraGamerules
 {
     public static final Logger LOGGER = LogManager.getLogger();
-    public static final String MOD_ID = "chickenhat";
+    public static final String MOD_ID = "extragamerules";
     public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     public ExtraGamerules() {

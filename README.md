@@ -3,7 +3,7 @@
 
 Adds extra gamerules for convenience.
 
-#Dependencies
+# Dependencies
 This mod has no dependencies!
 
 # Downloads
